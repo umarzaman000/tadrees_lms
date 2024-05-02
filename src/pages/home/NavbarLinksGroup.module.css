@@ -11,7 +11,11 @@
       color: light-dark(var(--mantine-color-black), var(--mantine-color-dark-0));
     }
   }
-  
+  .nestedNavbar{
+    margin-left: var(--mantine-spacing-xl);
+    border-left: 1px solid light-dark(var(--mantine-color-gray-3), var(--mantine-color-dark-4));
+
+  }
   .link {
     font-weight: 500;
     display: block;

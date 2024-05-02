@@ -9,11 +9,13 @@ interface LinksGroupProps {
   label: string;
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
+  Nested?:any;
 }
 
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksGroupProps) {
+export function LinksNested({ icon: Icon, label, initiallyOpened, links,Nested }: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
+  console.log('Nested--->',Nested)
   const items = (hasLinks ? links : []).map((link) => (
     <Text<'a'>
       
@@ -33,8 +35,10 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links }: LinksG
 
   return (
     <>
-      <UnstyledButton onClick={() => setOpened((o) => !o)} className={classes.control}>
-        <Group justify="space-between" gap={0}>
+      <UnstyledButton style={{
+        width: '89%',
+      }}  onClick={() => setOpened((o) => !o)} className={`${classes.control} ${classes.nestedNavbar}`  }>
+        <Group justify="space-between" gap={0} >
         <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
            <ThemeIcon variant="light" size={30}>
               <Icon style={{ width: rem(18), height: rem(18) }} />
@@ -82,10 +86,10 @@ const mockdata = {
   ],
 };
 
-export function NavbarLinksGroup() {
+export function NavbarNestedGroup() {
   return (
     <Box mih={220} p="md">
-      <LinksGroup {...mockdata} />
+      <LinksNested {...mockdata} />
     </Box>
   );
 }
