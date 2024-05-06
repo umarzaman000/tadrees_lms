@@ -1,12 +1,12 @@
 import { useState } from 'react';
 import { Autocomplete } from '@mantine/core';
 import '@mantine/core/styles/Input.css';
-import './login.css'; 
+import '../../components/login.css'; 
 import logo from "../../assets/logo.png";
 import Image from 'next/image';
 import { Paper, Text, ThemeIcon, rem } from '@mantine/core';
 import { IconColorSwatch } from '@tabler/icons-react';
-import classes from './CardGradient.module.css';
+import classes from '../../components/CardGradient.module.css';
 import { PasswordInput,Group, Anchor } from '@mantine/core';
 
 export default function Login() {

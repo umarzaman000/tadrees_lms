@@ -1,10 +1,11 @@
 import { useState } from 'react';
-import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, rem } from '@mantine/core';
+import { Group, Box, Collapse, ThemeIcon, Text, UnstyledButton, rem, } from '@mantine/core';
 import { IconCalendarStats, IconChevronRight } from '@tabler/icons-react';
 import classes from './NavbarLinksGroup.module.css';
-import { ActionIcon, RingProgress,  Center, Badge } from '@mantine/core';
+import { ActionIcon, RingProgress,  Center, } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
 import {LinksNested} from "./NavbarNestedLinks"
+import { Badge } from '@mantine/core';
 interface LinksGroupProps {
   icon: React.FC<any>;
   label: string;
@@ -30,10 +31,9 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links,Nested }:
       style={{display:"flex" ,justifyContent: 'space-between',}}
     >
       {link.label}
-      {/* <Badge style={{ fontSize: "10px", width: "xs", height: "xs", textAlign: "center" }}>
+      <Badge style={{ fontSize: "10px", width: "xs", height: "xs", textAlign: "center" }}>
   <text style={{ fontSize: "10px", textAlign: "center" }}>2/10</text>
-</Badge> */}
-
+</Badge> 
     </Text>
   ));
   const linksNested = Nested.map((item) => (
