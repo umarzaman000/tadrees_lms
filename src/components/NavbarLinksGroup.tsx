@@ -13,23 +13,18 @@ interface LinksGroupProps {
   links?: { label: string; link: string }[];
   Nested?:any;
 }
-
 export function LinksGroup({ icon: Icon, label, initiallyOpened, links,Nested }: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const hasNested = Array.isArray(Nested);
-
-  const [opened, setOpened] = useState(initiallyOpened || false);
-  console.log('Nested--->',Nested)
+   const [opened, setOpened] = useState(initiallyOpened || false);
   const items = (hasLinks ? links : []).map((link) => (
     <Text<'a'>
-      
       component="a"
       className={classes.link}
       href={link.link}
       key={link.label}
       onClick={(event) => event.preventDefault()}
-      style={{display:"flex" ,justifyContent: 'space-between',}}
-    >
+      style={{display:"flex" ,justifyContent: 'space-between',}}>
       {link.label}
       <Badge style={{ fontSize: "10px", width: "xs", height: "xs", textAlign: "center" }}>
   <text style={{ fontSize: "10px", textAlign: "center" }}>2/10</text>
@@ -78,27 +73,8 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links,Nested }:
       </UnstyledButton>
       {hasLinks ? <Collapse in={opened}>{items}</Collapse> : null}
       {hasNested ? <Collapse in={opened}>{linksNested}</Collapse> : null}
-
-      
-      
     </>
   );
 }
 
-const mockdata = {
-  label: 'Releases',
-  icon: IconCalendarStats,
-  links: [
-    { label: 'Upcoming releases', link: '/' },
-    { label: 'Previous releases', link: '/' },
-    { label: 'Releases schedule', link: '/' },
-  ],
-};
 
-export function NavbarLinksGroup() {
-  return (
-    <Box mih={220} p="md">
-      <LinksGroup {...mockdata} />
-    </Box>
-  );
-}

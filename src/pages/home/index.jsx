@@ -1,36 +1,149 @@
-import { Group, Code, ScrollArea, rem ,Grid} from "@mantine/core";
-import RichTextEdit from "../../components/RichTextEditor.tsx"
+import React, { useState } from "react";
+import {
+  Group,
+  Button,
+  Modal,
+  TextInput,
+  Checkbox,
+  Box,
+  Flex,
+  Grid,
+} from "@mantine/core";
+import { rem, ScrollArea } from "@mantine/core";
+import RichTextEdit from "../../components/RichTextEditor.tsx";
 import { UserButton } from "../../components/UserButton.tsx";
 import { LinksGroup } from "../../components/NavbarLinksGroup.tsx";
 import classes from "../../components/NavbarNested.module.css";
 import logo from "../../assets/logo.png";
-import Page from "../../components/page-student.jsx"
-import '../../components/login.css';
-import mockdata from "../../components/mokdata.js"
-import Image from 'next/image';
+import Page from "../../components/page-student.jsx";
+import "../../components/login.css";
+import mockdata from "../../components/mokdata.js";
+import Image from "next/image";
+import { useForm } from "@mantine/form";
+import { useDisclosure } from "@mantine/hooks";
+
+const AuthenticationModal = ({
+  opened,
+  onClose,
+  teacherChecked,
+  studentChecked,
+  handleTeacherChange,
+  handleStudentChange,
+}) => {
+  return (
+    <Modal
+      style={{ borderRadius: "50px" }}
+      opened={opened}
+      onClose={onClose}
+      title="Authentication"
+    >
+      <Box maw={340} mx="auto">
+        <form>
+          <TextInput
+            withAsterisk
+            label="Email"
+            placeholder="your@email.com"
+          />
+          <TextInput
+            withAsterisk
+            label="User Name"
+            placeholder="your@email.com"
+          />
+          <TextInput
+            withAsterisk
+            label="Password"
+            placeholder="your@email.com"
+          />
+          <Flex
+            mih={50}
+            gap="md"
+            justify="flex-start"
+            align="flex-start"
+            direction="row"
+            wrap="wrap"
+          >
+            <Checkbox
+              mt="md"
+              label="Teacher"
+              type="checkbox"
+              checked={teacherChecked}
+              onChange={handleTeacherChange}
+            />
+            <Checkbox
+              mt="md"
+              label="Student"
+              type="checkbox"
+              checked={studentChecked}
+              onChange={handleStudentChange}
+            />
+          </Flex>
+
+          <Group justify="flex-end" mt="md">
+            <Button type="submit">Submit</Button>
+          </Group>
+        </form>
+      </Box>
+    </Modal>
+  );
+};
+
 export default function NavbarNested() {
-  const links = mockdata.map((item) => (
+  const links = mockdata.map((item, index) => (
     <LinksGroup {...item} key={item.label} />
   ));
+  const [opened, { open, close }] = useDisclosure(false);
+  const [teacherChecked, setTeacherChecked] = useState(false);
+  const [studentChecked, setStudentChecked] = useState(false);
+
+  const handleTeacherChange = () => {
+    setTeacherChecked(!teacherChecked);
+    if (!teacherChecked) {
+      setStudentChecked(false);
+    }
+  };
+
+  const handleStudentChange = () => {
+    setStudentChecked(!studentChecked);
+    if (!studentChecked) {
+      setTeacherChecked(false);
+    }
+  };
+
+  const handleClose = () => {
+    close();
+  };
 
   return (
     <Grid>
-            <Grid.Col span={4} >
-    <nav className={classes.navbar} style={{height:"550px"}} >
-      <Image width={160} height={48} src={logo} />
-    <ScrollArea className={classes.links}>
-    
-  <div className={classes.linksInner}>{links}</div>
-      </ScrollArea>
-    <div className={classes.footer}>
-        <UserButton />
-      </div>
-    </nav>
-    </Grid.Col>
-    <Grid.Col  span={8} >
- {/* <RichTextEdit/> */}
- <Page/>
-    </Grid.Col>
+      <Grid.Col span={4}>
+        <nav className={classes.navbar} style={{ height: "550px" }}>
+          <Image width={160} height={48} src={logo} />
+
+          <Button variant="light" onClick={open} className={classes.button2}>
+            Create User
+          </Button>
+
+          <ScrollArea className={classes.links}>
+            <div className={classes.linksInner}>{links}</div>
+          </ScrollArea>
+
+          <AuthenticationModal
+            opened={opened}
+            onClose={handleClose}
+            teacherChecked={teacherChecked}
+            studentChecked={studentChecked}
+            handleTeacherChange={handleTeacherChange}
+            handleStudentChange={handleStudentChange}
+          />
+
+          <div className={classes.footer}>
+            <UserButton />
+          </div>
+        </nav>
+      </Grid.Col>
+      <Grid.Col span={8}>
+        <Page />
+      </Grid.Col>
     </Grid>
   );
 }

@@ -4,7 +4,9 @@ export default function Demo() {
   return (
     <Paper shadow="lg" radius="xl" withBorder p="xl" style={{
         marginTop:"50px",
-        marginRight:"70px",
+        marginRight:"90px",
+        alignSelf:"center"
+        
     }}>
      <Title style={{paddingBottom:"20px"}}>Lecture:</Title>
       <Text>

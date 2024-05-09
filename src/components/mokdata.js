@@ -21,9 +21,9 @@ const mockdata = [
           label: "lectures",
           icon: IconCalendarStats,
           links: [
-            { label: "lecture1", link: "/" },
-            { label: "lecture2", link: "/" },
-            { label: "lecture3", link: "/" },
+            { label: "lecture1", link: "/1" },
+            { label: "lecture2", link: "/2" },
+            { label: "lecture3", link: "/3" },
           ],
         },
         
@@ -31,18 +31,18 @@ const mockdata = [
           label: "assignments",
           icon: IconCalendarStats,
           links: [
-            { label: "assignment1", link: "/" },
-            { label: "assignment2", link: "/" },
-            { label: "assignment3", link: "/" },
+            { label: "assignment1", link: "/1" },
+            { label: "assignment2", link: "/2" },
+            { label: "assignment3", link: "/3" },
           ],
         },
         {
             label: "Quizes",
             icon: IconCalendarStats,
             links: [
-              { label: "Quize1", link: "/" },
-              { label: "Quize2", link: "/" },
-              { label: "Quize3", link: "/" },
+              { label: "Quize1", link: "/1" },
+              { label: "Quize2", link: "/2" },
+              { label: "Quize3", link: "/3" },
             ],
           },
       ]
@@ -59,9 +59,9 @@ const mockdata = [
           label: "lectures",
           icon: IconCalendarStats,
           links: [
-            { label: "lecture1", link: "/" },
-            { label: "lecture2", link: "/" },
-            { label: "lecture3", link: "/" },
+            { label: "lecture1", link: "/1" },
+            { label: "lecture2", link: "/2" },
+            { label: "lecture3", link: "/3" },
           ],
         },
         
@@ -69,18 +69,18 @@ const mockdata = [
           label: "Assinments",
           icon: IconCalendarStats,
           links: [
-            { label: "Assinment1", link: "/" },
-            { label: "Assinment2", link: "/" },
-            { label: "Assinment3", link: "/" },
+            { label: "Assinment1", link: "/1" },
+            { label: "Assinment2", link: "/2" },
+            { label: "Assinment3", link: "/3" },
           ],
         },
         {
             label: "Quizes",
             icon: IconCalendarStats,
             links: [
-              { label: "Quize1", link: "/" },
-              { label: "Quize2", link: "/" },
-              { label: "Quize3", link: "/" },
+              { label: "Quize1", link: "/1" },
+              { label: "Quize2", link: "/2" },
+              { label: "Quize3", link: "/3" },
             ],
           },
       ]
@@ -97,9 +97,9 @@ const mockdata = [
           label: "lectures",
           icon: IconCalendarStats,
           links: [
-            { label: "lecture1", link: "/" },
-            { label: "lecture2", link: "/" },
-            { label: "lecture3", link: "/" },
+            { label: "lecture1", link: "/1" },
+            { label: "lecture2", link: "/2" },
+            { label: "lecture3", link: "/3" },
           ],
         },
         
@@ -107,18 +107,18 @@ const mockdata = [
           label: "Assinments",
           icon: IconCalendarStats,
           links: [
-            { label: "Assinment1", link: "/" },
-            { label: "Assinment2", link: "/" },
-            { label: "Assinment3", link: "/" },
+            { label: "Assinment1", link: "/1" },
+            { label: "Assinment2", link: "/2" },
+            { label: "Assinment3", link: "/3" },
           ],
         },
         {
             label: "Quizes",
             icon: IconCalendarStats,
             links: [
-              { label: "Quize1", link: "/" },
-              { label: "Quize2", link: "/" },
-              { label: "Quize3", link: "/" },
+              { label: "Quize1", link: "/1" },
+              { label: "Quize2", link: "/2" },
+              { label: "Quize3", link: "/3" },
             ],
           },
       ]
@@ -135,9 +135,9 @@ const mockdata = [
           label: "lectures",
           icon: IconCalendarStats,
           links: [
-            { label: "lecture1", link: "/" },
-            { label: "lecture2", link: "/" },
-            { label: "lecture3", link: "/" },
+            { label: "lecture1", link: "/1" },
+            { label: "lecture2", link: "/2" },
+            { label: "lecture3", link: "/3" },
           ],
         },
         
@@ -145,18 +145,18 @@ const mockdata = [
           label: "Assinments",
           icon: IconCalendarStats,
           links: [
-            { label: "Assinment1", link: "/" },
-            { label: "Assinment2", link: "/" },
-            { label: "Assinment3", link: "/" },
+            { label: "Assinment1", link: "/1" },
+            { label: "Assinment2", link: "/2" },
+            { label: "Assinment3", link: "/3" },
           ],
         },
         {
             label: "Quizes",
             icon: IconCalendarStats,
             links: [
-              { label: "Quize1", link: "/" },
-              { label: "Quize2", link: "/" },
-              { label: "Quize3", link: "/" },
+              { label: "Quize1", link: "/1" },
+              { label: "Quize2", link: "/2" },
+              { label: "Quize3", link: "/3" },
             ],
           },
       ]
