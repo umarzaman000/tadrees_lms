@@ -3,6 +3,7 @@
 import mysql from 'mysql2/promise';
 
 // Function to establish a MySQL connection
+const bcrypt = require('bcryptjs');
 async function connectToDatabase() {
   const connection = await mysql.createConnection({
     host: '127.0.0.1',  // Change to your MySQL host
@@ -14,6 +15,7 @@ async function connectToDatabase() {
 }
 
 export default async function handler(req, res) {
+  
   if (req.method === 'POST') {
     // Assuming JSON data is sent in the request body
     // const { data } = req.body;

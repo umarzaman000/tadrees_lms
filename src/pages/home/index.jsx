@@ -133,7 +133,7 @@ export default function NavbarNested() {
             teacherChecked={teacherChecked}
             studentChecked={studentChecked}
             handleTeacherChange={handleTeacherChange}
-            handleStudentChange={handleStudentChange}
+            handleStudentChange={handleStudentChange} 
           />
 
           <div className={classes.footer}>
