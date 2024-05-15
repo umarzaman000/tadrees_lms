@@ -115,8 +115,8 @@ export default function NavbarNested() {
 
   return (
     <Grid>
-      <Grid.Col span={4}>
-        <nav className={classes.navbar} style={{ height: "550px" }}>
+      <Grid.Col span={3}>
+        <nav className={classes.navbar} style={{ height: "550px", width:"auto" }}>
           <Image width={160} height={48} src={logo} />
 
           <Button variant="light" onClick={open} className={classes.button2}>
@@ -141,7 +141,7 @@ export default function NavbarNested() {
           </div>
         </nav>
       </Grid.Col>
-      <Grid.Col span={8}>
+      <Grid.Col span={9}>
         <Page />
       </Grid.Col>
     </Grid>

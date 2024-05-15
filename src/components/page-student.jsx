@@ -4,7 +4,7 @@ export default function Demo() {
   return (
     <Paper shadow="lg" radius="xl" withBorder p="xl" style={{
         marginTop:"50px",
-        marginRight:"90px",
+        marginRight:"20px",
         alignSelf:"center"
         
     }}>
