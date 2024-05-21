@@ -18,7 +18,6 @@ export function LinksNested({ icon: Icon, label, initiallyOpened, links,Nested }
   console.log('Nested--->',Nested)
   const items = (hasLinks ? links : []).map((link) => (
     <Text<'a'>
-      
       component="a"
       className={classes.link}
       href={link.link}
@@ -36,7 +35,7 @@ export function LinksNested({ icon: Icon, label, initiallyOpened, links,Nested }
   return (
     <>
       <UnstyledButton style={{
-        width: '89%',
+        width: '100%',
       }}  onClick={() => setOpened((o) => !o)} className={`${classes.control} ${classes.nestedNavbar}`  }>
         <Group justify="space-between" gap={0} >
         <Box style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -51,12 +50,7 @@ export function LinksNested({ icon: Icon, label, initiallyOpened, links,Nested }
              thickness={3}
              roundCaps
         sections={[{ value: 40, color: 'blue' }]}
-        label={
-          <Text c="blue" fw={700} ta="center" size="xs">
-            40%
-          </Text>
-        }
-      />
+        label={<Text c="blue" fw={700} ta="center" size="xs">40%</Text>}/>
         </Box>
           {hasLinks && (
             <IconChevronRight
@@ -65,7 +59,7 @@ export function LinksNested({ icon: Icon, label, initiallyOpened, links,Nested }
               style={{
                 width: rem(16),
                 height: rem(16),
-                transform: opened ? 'rotate(-90deg)' : 'none',
+                transform: opened ? 'rotate(90deg)' : 'none',
               }}
             />
           )}

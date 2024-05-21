@@ -13,7 +13,7 @@ interface LinksGroupProps {
   links?: { label: string; link: string }[];
   Nested?:any;
 }
-export function LinksGroup({ icon: Icon, label, initiallyOpened, links,Nested }: LinksGroupProps) {
+export function LinksGroup({ icon: Icon, label, initiallyOpened, links,Nested,  }: LinksGroupProps) {
   const hasLinks = Array.isArray(links);
   const hasNested = Array.isArray(Nested);
    const [opened, setOpened] = useState(initiallyOpened || false);
@@ -31,6 +31,7 @@ export function LinksGroup({ icon: Icon, label, initiallyOpened, links,Nested }:
 </Badge> 
     </Text>
   ));
+  console.log('Nestedlinks=========',Nested)
   const linksNested = Nested.map((item) => (
     <LinksNested {...item} key={item.label} />
   ));

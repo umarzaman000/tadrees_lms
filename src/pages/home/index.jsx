@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Group,
   Button,
@@ -39,11 +39,7 @@ const AuthenticationModal = ({
     >
       <Box maw={340} mx="auto">
         <form>
-          <TextInput
-            withAsterisk
-            label="Email"
-            placeholder="your@email.com"
-          />
+          <TextInput withAsterisk label="Email" placeholder="your@email.com" />
           <TextInput
             withAsterisk
             label="User Name"
@@ -86,45 +82,98 @@ const AuthenticationModal = ({
     </Modal>
   );
 };
-
 export default function NavbarNested() {
-  const links = mockdata.map((item, index) => (
-    <LinksGroup {...item} key={item.label} />
-  ));
+
   const [opened, { open, close }] = useDisclosure(false);
   const [teacherChecked, setTeacherChecked] = useState(false);
   const [studentChecked, setStudentChecked] = useState(false);
+  const [courses, setCourses] = useState([]);
 
+  const links = courses?.map((item, index) => (
+    <LinksGroup {...item} key={item.label} />
+  ));
+
+  const transformData = (apiData) => {
+    console.log('apiData----->',apiData)
+    return apiData.data.map(course => ({
+      label: course.name,
+      icon: 'IconNotes',  // Assuming a string identifier for the icon
+      initiallyOpened: false,
+      links: [],
+      Nested: [
+        {
+          label: "lectures",
+          icon: 'IconCalendarStats',  // Assuming a string identifier for the icon
+          links: course.lecture.map(lect => ({
+            label: lect.title,
+            link: `/${lect.lecture_no}`
+          }))
+        }
+      ]
+    }));
+  };
+  
+  // const mockdata = transformData(array);
+  
+
+
+
+  console.log("courses>",courses)
   const handleTeacherChange = () => {
     setTeacherChecked(!teacherChecked);
     if (!teacherChecked) {
       setStudentChecked(false);
     }
   };
-
   const handleStudentChange = () => {
     setStudentChecked(!studentChecked);
     if (!studentChecked) {
       setTeacherChecked(false);
     }
   };
-
-  const handleClose = () => {
+const handleClose = () => {
     close();
   };
+  useEffect(() => {
+    const fetchCourses = async () => {
+      try {
+        let response = await fetch("http://localhost:3000/api/courses");
+        let data = await response.json();
+        const mockdatas = transformData(data);
+console.log('mockdata----->',mockdatas)
+        setCourses(mockdatas);
+        } catch (error) {
+        console.error("Error fetching courses:", error);
+      }
+    };
+
+    fetchCourses();
+  }, []); 
+
+
+
 
   return (
     <Grid>
       <Grid.Col span={3}>
-        <nav className={classes.navbar} style={{ height: "550px", width:"auto" }}>
+        <nav
+          className={classes.navbar}
+          style={{ height: "550px", width: "auto" }}
+        >
           <Image width={160} height={48} src={logo} />
 
           <Button variant="light" onClick={open} className={classes.button2}>
             Create User
           </Button>
 
-          <ScrollArea className={classes.links}>
-            <div className={classes.linksInner}>{links}</div>
+          <ScrollArea className={classes.links }>
+            <div className={classes.linksInner}>
+{courses.length &&
+courses?.map((item, index) => (
+  <LinksGroup {...item} key={item.label} />
+))}
+
+            </div>
           </ScrollArea>
 
           <AuthenticationModal
@@ -133,7 +182,7 @@ export default function NavbarNested() {
             teacherChecked={teacherChecked}
             studentChecked={studentChecked}
             handleTeacherChange={handleTeacherChange}
-            handleStudentChange={handleStudentChange} 
+            handleStudentChange={handleStudentChange}
           />
 
           <div className={classes.footer}>
