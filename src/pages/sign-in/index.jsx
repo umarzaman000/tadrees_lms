@@ -1,47 +1,61 @@
 import { useState } from "react";
-import { Autocomplete } from "@mantine/core";
-import "@mantine/core/styles/Input.css";
-import "../../components/login.css";
-import logo from "../../assets/logo.png";
-import Image from "next/image";
-import { Paper, Text, ThemeIcon, rem } from "@mantine/core";
+import {
+  Autocomplete,
+  Paper,
+  Text,
+  ThemeIcon,
+  rem,
+  PasswordInput,
+  Group,
+  Anchor,
+  Button,
+  Modal,
+  Box,
+  TextInput,
+  Flex,
+  Checkbox,
+  Input,
+} from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import { IconColorSwatch } from "@tabler/icons-react";
+import Image from "next/image";
+import logo from "../../assets/logo.png";
 import classes from "../../components/CardGradient.module.css";
-import { PasswordInput, Group, Anchor } from "@mantine/core";
-import { Button } from "@mantine/core";
+import "@mantine/core/styles/Input.css";
+import axios from "axios";
+import "../../components/login.css";
+import { useRouter } from "next/navigation";
 export default function Login() {
-  const [emailValue, setEmailValue] = useState("");
-  const [passwordshow, setPasswordshow] = useState(false);
-  const handleChangeforpassword = () => {
-    setPasswordshow(!passwordshow);
-  };
-  const handleForgotPassword = () => {
-    console.log("Forgot Password clicked!");
-  };
-
-  const handleSubmit = async () => {
-    // e.preventDefault();
-
+  const router = useRouter();
+  const onLogin = async (e) => {
+    e.preventDefault();
+    if (!data.username || !data.password) {
+      alert("Please Fill All Inputs");
+      return;
+    }
     try {
-      const response = await fetch("/api/postData", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ data: "foam" }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to post data");
-      }
-
-      const responseData = await response.json();
-      console.log(responseData);
-    } catch (error) {
-      console.error(error.message);
+      const response = await axios.post("api/signin", data);
+      console.log("response", response.data.userData);
+      localStorage.setItem(
+        "userId",
+        response.data.userData._id
+      );
+       router.push("/home");
+    } catch(error) {alert("something went wrong")
+      return;
     }
   };
-
+  const defaultdata = { username: "", password: "" };
+  const [data, setdata] = useState(defaultdata);
+  console.log("==.......data", data);
+  const onValueChange = (e) => {
+    console.log("target: ", e.target);
+    setdata({ ...data, [e.target.name]: e.target.value });
+  };
+  const handleChangeForPassword = () => {
+    setPasswordShow(!passwordShow);
+  };
+  const [passwordShow, setPasswordShow] = useState(false);
   return (
     <>
       <div className="container">
@@ -51,22 +65,28 @@ export default function Login() {
             Sign In
           </Text>
 
-          <Autocomplete
+          <Input
             style={{ marginTop: "20px", marginBottom: "20px" }}
             type="text"
-            placeholder="Email"
+            placeholder="username"
+            name="username"
+            value={data.username}
+            onChange={(e) => onValueChange(e)}
           />
-          <Autocomplete
+          <Input
             style={{ marginTop: "20px", marginBottom: "20px" }}
-            type={passwordshow ? "text" : "password"}
+            type={passwordShow ? "text" : "password"}
             placeholder="Password"
+            name="password"
+            onChange={(e) => onValueChange(e)}
+            value={data.password}
           />
           <div className="d-flex-chechbox">
             <label style={{ fontSize: "12px" }}>
               <input
                 type="checkbox"
-                onChange={handleChangeforpassword}
-                checked={passwordshow}
+                onChange={handleChangeForPassword}
+                checked={passwordShow}
               />
               Show Password
             </label>
@@ -74,19 +94,27 @@ export default function Login() {
               Forgot your password?
             </Anchor>
           </div>
-          <Button
-            onClick={(event) => handleSubmit()}
-            variant="filled"
-            size="xs"
-            radius="l"
+          <div
             style={{
-              marginTop: "20px",
               display: "flex",
-              justifyContent: "flex-end",
+              justifyContent: "space-between",
+              alignItems: "center",
             }}
           >
-            Sign In
-          </Button>
+            <Button
+              onClick={(e) => onLogin(e)}
+              variant="filled"
+              size="xs"
+              radius="l"
+              style={{
+                marginTop: "20px",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              Login In
+            </Button>
+          </div>
         </Paper>
       </div>
     </>

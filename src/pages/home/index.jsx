@@ -17,10 +17,10 @@ import classes from "../../components/NavbarNested.module.css";
 import logo from "../../assets/logo.png";
 import Page from "../../components/page-student.jsx";
 import "../../components/login.css";
-import mockdata from "../../components/mokdata.js";
 import Image from "next/image";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
+import axios from 'axios'
 
 const AuthenticationModal = ({
   opened,
@@ -137,10 +137,10 @@ const handleClose = () => {
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        let response = await fetch("http://localhost:3000/api/courses");
-        let data = await response.json();
-        const mockdatas = transformData(data);
-console.log('mockdata----->',mockdatas)
+        const userId = localStorage.getItem('userId')
+        console.log("userid",userId)
+        let response = await axios.get(`http://localhost:3000/api/courses?id=${userId}`);
+        const mockdatas = transformData(response.data);
         setCourses(mockdatas);
         } catch (error) {
         console.error("Error fetching courses:", error);
@@ -158,7 +158,7 @@ console.log('mockdata----->',mockdatas)
       <Grid.Col span={3}>
         <nav
           className={classes.navbar}
-          style={{ height: "550px", width: "auto" }}
+          style={{ height: "680px", width: "auto" }}
         >
           <Image width={160} height={48} src={logo} />
 
