@@ -41,7 +41,7 @@ export default function Login() {
         response.data.userData._id
       );
        router.push("/home");
-    } catch(error) {alert("something went wrong")
+    } catch(error) {alert("User Not Available")
       return;
     }
   };

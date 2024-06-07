@@ -5,7 +5,6 @@ import { ConnectionSrt } from "../../lib/db";
 let isConnected = false;
 
 async function handler(req, res) {
-  console.log('body:==== ',req.query)
   if (req.method == "GET") {
     if (!isConnected) {
       try {

@@ -20,7 +20,7 @@ import "../../components/login.css";
 import Image from "next/image";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
-import axios from 'axios'
+import axios from "axios";
 
 const AuthenticationModal = ({
   opened,
@@ -83,7 +83,6 @@ const AuthenticationModal = ({
   );
 };
 export default function NavbarNested() {
-
   const [opened, { open, close }] = useDisclosure(false);
   const [teacherChecked, setTeacherChecked] = useState(false);
   const [studentChecked, setStudentChecked] = useState(false);
@@ -94,31 +93,28 @@ export default function NavbarNested() {
   ));
 
   const transformData = (apiData) => {
-    console.log('apiData----->',apiData)
-    return apiData.data.map(course => ({
+    console.log("apiData----->", apiData);
+    return apiData.data.map((course) => ({
       label: course.name,
-      icon: 'IconNotes',  // Assuming a string identifier for the icon
+      icon: "IconNotes", // Assuming a string identifier for the icon
       initiallyOpened: false,
       links: [],
       Nested: [
         {
           label: "lectures",
-          icon: 'IconCalendarStats',  // Assuming a string identifier for the icon
-          links: course.lecture.map(lect => ({
+          icon: "IconCalendarStats", // Assuming a string identifier for the icon
+          links: course.lecture.map((lect) => ({
             label: lect.title,
-            link: `/${lect.lecture_no}`
-          }))
-        }
-      ]
+            link: `/${lect.lecture_no}`,
+          })),
+        },
+      ],
     }));
   };
-  
+
   // const mockdata = transformData(array);
-  
 
-
-
-  console.log("courses>",courses)
+  console.log("courses>", courses);
   const handleTeacherChange = () => {
     setTeacherChecked(!teacherChecked);
     if (!teacherChecked) {
@@ -131,27 +127,33 @@ export default function NavbarNested() {
       setTeacherChecked(false);
     }
   };
-const handleClose = () => {
+  const handleClose = () => {
     close();
   };
   useEffect(() => {
     const fetchCourses = async () => {
       try {
-        const userId = localStorage.getItem('userId')
-        console.log("userid",userId)
-        let response = await axios.get(`http://localhost:3000/api/courses?id=${userId}`);
+        const userId = localStorage.getItem("userId");
+        const classId = localStorage.getItem("classId");
+        const courseId = localStorage.getItem("courseId");
+        console.log("userid", userId);
+
+        let response = await axios.get(
+          `http://localhost:3000/api/classes?classId=${classId}`
+        );
+        console.log("-----kiahayismain>", response.data.data.course_id);
+        localStorage.setItem("courseId", response.data.data.course_id);
+        localStorage.setItem("classId", response.data.userData[0].class_id);
         const mockdatas = transformData(response.data);
+        // console.log("======>NEWRES",mockdatas[0].Nested[0].links)
         setCourses(mockdatas);
-        } catch (error) {
+      } catch (error) {
         console.error("Error fetching courses:", error);
       }
     };
 
     fetchCourses();
-  }, []); 
-
-
-
+  }, []);
 
   return (
     <Grid>
@@ -166,13 +168,12 @@ const handleClose = () => {
             Create User
           </Button>
 
-          <ScrollArea className={classes.links }>
+          <ScrollArea className={classes.links}>
             <div className={classes.linksInner}>
-{courses.length &&
-courses?.map((item, index) => (
-  <LinksGroup {...item} key={item.label} />
-))}
-
+              {courses.length &&
+                courses?.map((item, index) => (
+                  <LinksGroup {...item} key={item.label} />
+                ))}
             </div>
           </ScrollArea>
 
