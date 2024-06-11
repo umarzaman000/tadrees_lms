@@ -1,4 +1,6 @@
 import { enrolleds } from "../../lib/model/enrolleds";
+import { classes } from "../../lib/model/classes";
+import { courses } from "../../lib/model/courses";
 import mongoose from "mongoose";
 import { ConnectionSrt } from "../../lib/db";
 let isConnected = false;
@@ -17,15 +19,17 @@ async function handler(req, res) {
       }
     }
     try {
-      const body = req.body;
-      const userData = await enrolleds.find({
-        student_ids: { $in: [req.query.user_id] },
-      });
-
-      console.log("=======userdatamainkiahay", userData);
-      if (userData) {
+      const userId = req.query.userId;
+      const userData = await enrolleds
+        .find({ student_ids: { $in: [userId] } })
+        .lean();
+      const classId = userData.map((data) => data.class_id);
+      const classData = await classes.find({ _id: classId }).lean();
+      const courseId = classData.map((data) => data.course_id);
+      const courseData = await courses.find({ _id: courseId }).lean();
+      if (courseData) {
         res.status(200);
-        res.send({ userData });
+        res.send({ courseData });
         return;
       } else {
         res.status(400);

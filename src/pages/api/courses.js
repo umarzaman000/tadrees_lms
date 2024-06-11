@@ -1,9 +1,7 @@
 import { courses } from "../../lib/model/courses";
 import mongoose from "mongoose";
 import { ConnectionSrt } from "../../lib/db";
-
 let isConnected = false;
-
 async function handler(req, res) {
   if (req.method == "GET") {
     if (!isConnected) {
@@ -19,19 +17,23 @@ async function handler(req, res) {
         );
       }
     }
-
-    try {
-      const body =req.body;
-
-      const data = await courses.find({user_id:req.query.id});
+try {
+      const body =req.query.courseId;
+      console.log("llll",body)
+      const data = await courses.findOne({_id:req.query.courseId});
       console.log('data', data)
-      res.status(200).send({success:true, data:data});
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      return res.status(500).send(
-        { error: "Error fetching data" },
-        { status: 500 }
-      );
+      if (data) {
+        res.status(200);
+        res.send({ data });
+        return;
+      } else {
+        res.status(400);
+        res.send({ error: "user does not exist" });
+      }
+    } catch (erorr) {
+      console.log(erorr);
+      res.status(500);
+      res.send({ error: "something went wrong" });
     }
   }
 }

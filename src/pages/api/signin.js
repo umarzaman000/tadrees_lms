@@ -18,7 +18,6 @@ async function handler(req, res) {
     }
     try {
       const body = req.body;
-      
       const { username, password } = body;
       console.log("====>username", username, password);
       const userData = await user.findOne({username: username,password: password});

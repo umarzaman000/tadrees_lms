@@ -94,7 +94,7 @@ export default function NavbarNested() {
 
   const transformData = (apiData) => {
     console.log("apiData----->", apiData);
-    return apiData.data.map((course) => ({
+    return apiData.courseData.map((course) => ({
       label: course.name,
       icon: "IconNotes", // Assuming a string identifier for the icon
       initiallyOpened: false,
@@ -134,16 +134,11 @@ export default function NavbarNested() {
     const fetchCourses = async () => {
       try {
         const userId = localStorage.getItem("userId");
-        const classId = localStorage.getItem("classId");
-        const courseId = localStorage.getItem("courseId");
-        console.log("userid", userId);
 
         let response = await axios.get(
-          `http://localhost:3000/api/classes?classId=${classId}`
+          `http://localhost:3000/api/enrolleds?userId=${userId}`
         );
-        console.log("-----kiahayismain>", response.data.data.course_id);
-        localStorage.setItem("courseId", response.data.data.course_id);
-        localStorage.setItem("classId", response.data.userData[0].class_id);
+
         const mockdatas = transformData(response.data);
         // console.log("======>NEWRES",mockdatas[0].Nested[0].links)
         setCourses(mockdatas);
