@@ -15,6 +15,7 @@ import {
   Flex,
   Checkbox,
   Input,
+  Loader
 } from "@mantine/core";
 import { useDisclosure } from "@mantine/hooks";
 import { IconColorSwatch } from "@tabler/icons-react";
@@ -26,22 +27,27 @@ import axios from "axios";
 import "../../components/login.css";
 import { useRouter } from "next/navigation";
 export default function Login() {
+  const [loading, setLoading] = useState(false)
   const router = useRouter();
   const onLogin = async (e) => {
+
     e.preventDefault();
     if (!data.username || !data.password) {
       alert("Please Fill All Inputs");
       return;
     }
     try {
+      setLoading(true)
       const response = await axios.post("api/signin", data);
-      console.log("response", response.data.userData);
       localStorage.setItem(
         "userId",
         response.data.userData._id
       );
-       router.push("/home");
-    } catch(error) {alert("User Not Available")
+      setLoading(false)
+      router.push("/home");
+    } catch(error) {
+      setLoading(false)
+      alert("User Not Available")
       return;
     }
   };
@@ -102,6 +108,7 @@ export default function Login() {
             }}
           >
             <Button
+              disabled={loading}
               onClick={(e) => onLogin(e)}
               variant="filled"
               size="xs"
@@ -114,6 +121,7 @@ export default function Login() {
             >
               Login In
             </Button>
+            {loading ? <Loader color="blue" /> : null}
           </div>
         </Paper>
       </div>

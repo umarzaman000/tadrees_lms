@@ -1,6 +1,4 @@
-import { enrolleds } from "../../lib/model/enrolleds";
-import { classes } from "../../lib/model/classes";
-import { courses } from "../../lib/model/courses";
+import { text } from "../../lib/model/text";
 import mongoose from "mongoose";
 import { ConnectionSrt } from "../../lib/db";
 import { objectIncludes } from "@tiptap/react";
@@ -21,27 +19,17 @@ async function handler(req, res) {
     }
     try {
       const mongoose = require("mongoose");
-      const userId = req.query.userId;
-      console.log("userid", userId);
+      const lecture_no = "5";
+      console.log("lecture_no", lecture_no);
 
-      const userData = await enrolleds
-        .find({ student_ids: { $in: [userId] } })
+      const lectureData = await text
+        .find({lecture})
         .lean();
-      console.log("userdat", userData);
+      console.log("lecturedata", lectureData);
 
-      const [{ class_id: classId }] = userData;
-      console.log("classid", classId);
-
-      const ObjectId = mongoose.Types.ObjectId;
-      const objectIdClassId = new ObjectId(classId);
-      console.log("objectIdClassId", objectIdClassId);
-      const classData = await classes.find({ _id: objectIdClassId }).lean();
-      console.log("classdata", classData);
-      const courseId = classData.map((data) => data.course_id);
-      const courseData = await courses.find({ _id: courseId }).lean();
-      if (courseData) {
+      if (lectureData) {
         res.status(200);
-        res.send({ courseData });
+        res.send({ lectureData });
         return;
       } else {
         res.status(400);

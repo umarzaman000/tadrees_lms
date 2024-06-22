@@ -21,7 +21,7 @@ import Image from "next/image";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
-
+import { useSelector, useDispatch } from "react-redux";
 const AuthenticationModal = ({
   opened,
   onClose,
@@ -138,8 +138,7 @@ export default function NavbarNested() {
         let response = await axios.get(
           `http://localhost:3000/api/enrolleds?userId=${userId}`
         );
-
-        const mockdatas = transformData(response.data);
+   const mockdatas = transformData(response.data);
         // console.log("======>NEWRES",mockdatas[0].Nested[0].links)
         setCourses(mockdatas);
       } catch (error) {

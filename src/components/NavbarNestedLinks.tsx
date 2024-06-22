@@ -4,28 +4,40 @@ import { IconCalendarStats, IconChevronRight } from '@tabler/icons-react';
 import classes from './NavbarLinksGroup.module.css';
 import { ActionIcon, RingProgress,  Center, Badge } from '@mantine/core';
 import { IconCheck } from '@tabler/icons-react';
+import { useDispatch } from 'react-redux'
+import { setLecture } from '../store/reducers/lectureSlice';
+
+import Link from 'next/link'
 interface LinksGroupProps {
   icon: React.FC<any>;
   label: string;
   initiallyOpened?: boolean;
   links?: { label: string; link: string }[];
   Nested?:any;
+  url?:string
 }
 
-export function LinksNested({ icon: Icon, label, initiallyOpened, links,Nested }: LinksGroupProps) {
+export function LinksNested({ icon: Icon, label, initiallyOpened, links,Nested,url }: LinksGroupProps) {
+  const dispatch = useDispatch();
   const hasLinks = Array.isArray(links);
   const [opened, setOpened] = useState(initiallyOpened || false);
-  console.log('Nested--->',Nested)
   const items = (hasLinks ? links : []).map((link) => (
-    <Text<'a'>
+    
+    <Text
       component="a"
       className={classes.link}
       href={link.link}
-      key={link.label}
-      onClick={(event) => event.preventDefault()}
+      key={link.link}
+      onClick={(event) => {
+        event.preventDefault()
+        dispatch(setLecture(link))
+        }
+      }
       style={{display:"flex" ,justifyContent: 'space-between',}}
-    >
-      {link.label}<Badge style={{ fontSize: "10px", width: "xs", height: "xs", textAlign: "center" }}>
+    >  
+    {link.label}
+    {/* <Link href={`/home/coursename/lecture${link.link}`}>{link.label}</Link> */}
+      <Badge style={{ fontSize: "10px", width: "xs", height: "xs", textAlign: "center" }}>
   <text style={{ fontSize: "10px", textAlign: "center" }}>2/10</text>
 </Badge>
 
