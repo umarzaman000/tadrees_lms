@@ -18,13 +18,11 @@ async function handler(req, res) {
     }
     try {
       const body = req.query;
-      console.log("-------->", body);
 
       const data = await classes.findOne({
         _id: req.query.classId,
       });
 
-      console.log("=======userdatamainkiahay", data);
       if (data) {
         res.status(200);
         res.send({ data });

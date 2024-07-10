@@ -1,13 +1,5 @@
 import { useState } from "react";
-import {
-  Group,
-  Box,
-  Collapse,
-  ThemeIcon,
-  Text,
-  UnstyledButton,
-  rem,
-} from "@mantine/core";
+import {Group,Box,Collapse,ThemeIcon,Text,UnstyledButton,rem,} from "@mantine/core";
 import { IconCalendarStats, IconChevronRight } from "@tabler/icons-react";
 import classes from "./NavbarLinksGroup.module.css";
 import { ActionIcon, RingProgress, Center } from "@mantine/core";
@@ -17,11 +9,11 @@ import { Badge } from "@mantine/core";
 interface LinksGroupProps {
   icon: React.FC<any>;
   label: string;
+  description:string
   initiallyOpened?: boolean;
-  links?: { label: string; link: string }[];
+  links?: { label: string; link: string; description:string  }[];
   Nested?: any;
 }
-
 export function LinksGroup({
   icon: Icon,
   label,
@@ -29,6 +21,7 @@ export function LinksGroup({
   links,
   Nested,
 }: LinksGroupProps) {
+  
   const hasLinks = Array.isArray(links);
   const hasNested = Array.isArray(Nested);
   const [opened, setOpened] = useState(initiallyOpened || false);
@@ -40,10 +33,9 @@ export function LinksGroup({
       className={classes.link}
       href={link.link}
       key={link.label}
-      onClick={(event) => event.preventDefault()}
+      // onClick={(event) => event.preventDefault()}
       style={{ display: "flex", justifyContent: "space-between" }}
-    >
-      {link.label}
+    >{link.label}
       <Badge
         style={{
           fontSize: "10px",
@@ -56,7 +48,6 @@ export function LinksGroup({
       </Badge>
     </Text>
   ));
-
   const linksNested = Nested.map((item) => (
     <LinksNested {...item} url={url} key={item.label} />
   ));
@@ -101,7 +92,7 @@ export function LinksGroup({
               style={{
                 width: rem(16),
                 height: rem(16),
-                transform: opened ? "rotate(-90deg)" : "none",
+                transform: opened ? "rotate(90deg)" : "none",
               }}
             />
           )}

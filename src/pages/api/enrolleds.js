@@ -22,21 +22,13 @@ async function handler(req, res) {
     try {
       const mongoose = require("mongoose");
       const userId = req.query.userId;
-      console.log("userid", userId);
-
       const userData = await enrolleds
         .find({ student_ids: { $in: [userId] } })
         .lean();
-      console.log("userdat", userData);
-
       const [{ class_id: classId }] = userData;
-      console.log("classid", classId);
-
       const ObjectId = mongoose.Types.ObjectId;
       const objectIdClassId = new ObjectId(classId);
-      console.log("objectIdClassId", objectIdClassId);
       const classData = await classes.find({ _id: objectIdClassId }).lean();
-      console.log("classdata", classData);
       const courseId = classData.map((data) => data.course_id);
       const courseData = await courses.find({ _id: courseId }).lean();
       if (courseData) {

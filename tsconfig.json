@@ -28,7 +28,7 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx"
-  ],
+, "src/components/page-student/lecture.jsx"  ],
   "exclude": [
     "node_modules"
   ]

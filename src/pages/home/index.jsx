@@ -15,13 +15,16 @@ import { UserButton } from "../../components/UserButton.tsx";
 import { LinksGroup } from "../../components/NavbarLinksGroup.tsx";
 import classes from "../../components/NavbarNested.module.css";
 import logo from "../../assets/logo.png";
-import Page from "../../components/page-student.jsx";
+import Page from "../../components/page-student/page-student.jsx";
 import "../../components/login.css";
 import Image from "next/image";
 import { useForm } from "@mantine/form";
 import { useDisclosure } from "@mantine/hooks";
 import axios from "axios";
+
 import { useSelector, useDispatch } from "react-redux";
+import { transform } from "typescript";
+
 const AuthenticationModal = ({
   opened,
   onClose,
@@ -82,64 +85,96 @@ const AuthenticationModal = ({
     </Modal>
   );
 };
+
 export default function NavbarNested() {
   const [opened, { open, close }] = useDisclosure(false);
   const [teacherChecked, setTeacherChecked] = useState(false);
   const [studentChecked, setStudentChecked] = useState(false);
-  const [courses, setCourses] = useState([]);
 
-  const links = courses?.map((item, index) => (
-    <LinksGroup {...item} key={item.label} />
-  ));
-
-  const transformData = (apiData) => {
-    console.log("apiData----->", apiData);
-    return apiData.courseData.map((course) => ({
-      label: course.name,
-      icon: "IconNotes", // Assuming a string identifier for the icon
-      initiallyOpened: false,
-      links: [],
-      Nested: [
-        {
-          label: "lectures",
-          icon: "IconCalendarStats", // Assuming a string identifier for the icon
-          links: course.lecture.map((lect) => ({
-            label: lect.title,
-            link: `/${lect.lecture_no}`,
-          })),
-        },
-      ],
-    }));
-  };
-
-  // const mockdata = transformData(array);
-
-  console.log("courses>", courses);
   const handleTeacherChange = () => {
     setTeacherChecked(!teacherChecked);
     if (!teacherChecked) {
       setStudentChecked(false);
     }
   };
+
   const handleStudentChange = () => {
     setStudentChecked(!studentChecked);
     if (!studentChecked) {
       setTeacherChecked(false);
     }
   };
+
   const handleClose = () => {
     close();
   };
+  const [courses, setCourses] = useState([]);
+  const links = courses?.map((item, index) => (
+    <LinksGroup {...item} key={item.label} />
+  ));
+  const transformData = (courseData, assignments, quizzes) => {
+    console.log("quizzes", quizzes);
+  
+    return courseData.map((course) => ({
+      label: course.name,
+      icon: "IconNotes", // Assuming a string identifier for the icon
+      initiallyOpened: false,
+      links: [],
+      Nested: [
+        {
+          label: "Lectures",
+          icon: "IconCalendarStats", // Assuming a string identifier for the icon
+          links: course.lecture.map((lect) => ({
+            label: lect.title,
+            link: lect.lecture_no,
+            description: lect.description,
+            key: "lectures", // Add description field here
+          })),
+        },
+        {
+          label: "Assignments",
+          icon: "IconCalendarStats", // Assuming a string identifier for the icon
+          links: assignments.map((assignment) => ({
+            label: assignment.title,
+            link: assignment.lecture_no,
+            description: assignment.description,
+            key: "assignments", // Add description field here
+          })),
+        },
+        {
+          label: "Quizzes",
+          icon: "IconCalendarStats", // Assuming a string identifier for the icon
+          links: quizzes.map((quizze) => ({
+            label: quizze.title,
+            link: quizze.lecture_no,
+            description: quizze.questions.map((question) => ({
+            description: question.description,
+            })),
+            key: "quizzes", 
+          })),
+        }
+      ],
+    }));
+  };
+  
+
   useEffect(() => {
     const fetchCourses = async () => {
       try {
         const userId = localStorage.getItem("userId");
-
-        let response = await axios.get(
-          `http://localhost:3000/api/enrolleds?userId=${userId}`
+        const [enrolledresponse, classresponse] = await Promise.all([
+          axios.get(`http://localhost:3000/api/enrolleds?userId=${userId}`),
+          axios.get(`http://localhost:3000/api/classsingle?userId=${userId}`),
+        ]);
+        console.log("enrolledresponse", enrolledresponse);
+        console.log("classresponse", classresponse);
+        const mockdatas = transformData(
+          enrolledresponse.data.courseData,
+          classresponse.data.classData[0].assignments,
+          classresponse.data.classData[0].quizzes
         );
-   const mockdatas = transformData(response.data);
-        // console.log("======>NEWRES",mockdatas[0].Nested[0].links)
+
+        console.log("mocdatas", mockdatas);
         setCourses(mockdatas);
       } catch (error) {
         console.error("Error fetching courses:", error);
@@ -147,8 +182,7 @@ export default function NavbarNested() {
     };
 
     fetchCourses();
-  }, []);
-
+  }, []); // Add dependencies if needed
   return (
     <Grid>
       <Grid.Col span={3}>
@@ -157,11 +191,9 @@ export default function NavbarNested() {
           style={{ height: "680px", width: "auto" }}
         >
           <Image width={160} height={48} src={logo} />
-
           <Button variant="light" onClick={open} className={classes.button2}>
             Create User
           </Button>
-
           <ScrollArea className={classes.links}>
             <div className={classes.linksInner}>
               {courses.length &&

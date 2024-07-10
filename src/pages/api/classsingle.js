@@ -1,7 +1,7 @@
-import { text } from "../../lib/model/text";
+import { classsingle } from "../../lib/model/classsingle";
 import mongoose from "mongoose";
 import { ConnectionSrt } from "../../lib/db";
-import { objectIncludes } from "@tiptap/react";
+import { enrolleds } from "../../lib/model/enrolleds";
 let isConnected = false;
 async function handler(req, res) {
   if (req.method == "GET") {
@@ -19,17 +19,19 @@ async function handler(req, res) {
     }
     try {
       const mongoose = require("mongoose");
-      const lecture_no = "5";
-      console.log("lecture_no", lecture_no);
-
-      const lectureData = await text
-        .find({lecture})
+      const userId = req.query.userId;
+      const userData = await enrolleds
+        .find({ student_ids: { $in: [userId] } })
         .lean();
-      console.log("lecturedata", lectureData);
+      const [{ class_id: classId }] = userData;
+      const ObjectId = mongoose.Types.ObjectId;
+      const objectIdClassId = new ObjectId(classId);
+      const classData = await classsingle.find({ _id: objectIdClassId }).lean();
+      console.log("data", classData);
 
-      if (lectureData) {
+      if (classData) {
         res.status(200);
-        res.send({ lectureData });
+        res.send({ classData });
         return;
       } else {
         res.status(400);

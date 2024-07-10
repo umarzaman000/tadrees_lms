@@ -1,23 +1,18 @@
-// store/reducers/lectureSlice.js
-import { createSlice } from '@reduxjs/toolkit';
-
+import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
-  lecture: null
+  lecture: null,
 };
-
-const lectureSlice = createSlice({
-  name: 'lecture',
+const dataSlice = createSlice({
+  name: "data",
   initialState,
   reducers: {
     setLecture(state, action) {
       state.lecture = action.payload;
     },
-    removeLecture(state){
-      state.lecture = null
-    }
-    // Add other actions here as needed
+    removeLecture(state) {
+      state.lecture = null;
+    },
   },
 });
-
-export const { setLecture, removeLecture } = lectureSlice.actions;
-export default lectureSlice.reducer;
+export const { setLecture, removeLecture } = dataSlice.actions;
+export default dataSlice.reducer;

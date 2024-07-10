@@ -19,21 +19,24 @@ async function handler(req, res) {
     try {
       const body = req.body;
       const { username, password } = body;
-      console.log("====>username", username, password);
-      const userData = await user.findOne({username: username,password: password});
-      console.log('userData: ',userData)
+
+      const userData = await user.findOne({
+        username: username,
+        password: password,
+      });
+
       if (userData) {
-        res.status(200)
-        res.send({userData})
-        return
-      }else{
-        res.status(400)
-        res.send({error: "user does not exist"});
-      } 
+        res.status(200);
+        res.send({ userData });
+        return;
+      } else {
+        res.status(400);
+        res.send({ error: "user does not exist" });
+      }
     } catch (erorr) {
       console.log(erorr);
-      res.status(500)
-      res.send({error: "something went wrong"});
+      res.status(500);
+      res.send({ error: "something went wrong" });
     }
   }
 }
